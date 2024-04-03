@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
+    "declaration": true,
     "moduleResolution": "node",
     "jsx": "preserve",
     "baseUrl": "./",
@@ -14,7 +15,7 @@
       // More info: https://www.snowpack.dev/guides/streaming-imports
     },
     "allowSyntheticDefaultImports": true,
-    "verbatimModuleSyntax": true,
+    // "noUncheckedIndexedAccess": true,
     /* more strict checking for errors that per-file transpilers like `esbuild` would crash */
     "isolatedModules": true,
     /* noEmit - We only use TypeScript for type checking. */
@@ -24,6 +25,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "outDir": "dist",
   }
 }

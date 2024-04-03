@@ -1,12 +1,10 @@
-import type { Countable } from "./interfaces";
-
 type FlatSequence<TItem, Depth extends number> = {
     done: Sequence<TItem>;
     recur: TItem extends Sequence<infer InnerItem> ? FlatSequence<InnerItem, [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20][Depth]>
         : Sequence<TItem>;
 }[Depth extends -1 ? "done" : "recur"];
 
-export default class Sequence<TItem = any> implements Countable {
+export default class Sequence<TItem = any> {
     private constructor(readonly generator: () => Generator<TItem>) { }
 
     [Symbol.iterator](): Iterator<TItem> {
