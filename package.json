@@ -21,6 +21,9 @@
   "bugs": {
     "url": "https://github.com/jsmunroe/sequence-js/issues"
   },
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/jsmunroe/sequence-js#readme",
   "scripts": {
     "start": "snowpack dev",
