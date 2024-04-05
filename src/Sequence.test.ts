@@ -77,7 +77,7 @@ describe('Sequence.from', () => {
 
         const arrayLike2 = sequence.toArray();
 
-        expect(arrayLike2).toEqual(arrayLike);
+        expect(arrayLike2).toEqual([undefined, undefined, undefined]);
     });
 
     test('should create an arrary when given an array-like instance with a mapper that returns value', () => {
@@ -945,7 +945,7 @@ describe('Sequence.with', () => {
 
         const test = () => Array.from(withed);
 
-        expect(test).toThrow('Index 3 is out of range.')
+        expect(test).toThrow('Invalid index : 3')
     });
 
     test('should return a new Sequence with the given value replacing the value at the given index', () => {
@@ -973,7 +973,7 @@ describe('Sequence.with', () => {
 
         const test = () => sequence.with(-4, 4);
 
-        expect(test).toThrow('Index -4 is out of range.')
+        expect(test).toThrow('Invalid index : -4')
     });
 });
 
@@ -1856,7 +1856,7 @@ describe('Sequence.entries', () => {
         expect(array).toEqual([[0, 1], [1, 2], [2, 3]]);
     });
 
-    test('should create full entries sequence more than once', () => {
+    test('should create an iterator that is consumed the first time it is realized', () => {
         const sequence = Sequence.from([1, 2, 3]);
 
         const entries = sequence.entries();
@@ -1865,7 +1865,7 @@ describe('Sequence.entries', () => {
         const array2 = Array.from(entries);
 
         expect(array).toEqual([[0, 1], [1, 2], [2, 3]]);
-        expect(array2).toEqual([[0, 1], [1, 2], [2, 3]]);
+        expect(array2).toEqual([]);
         expect(array).not.toBe(array2);
         expect(array[0]).not.toBe(array2[0]);
         expect(array[1]).not.toBe(array2[1]);
@@ -1900,7 +1900,7 @@ describe('Sequence.keys', () => {
         expect(array).toEqual([0, 1, 2]);
     });
 
-    test('should create full keys sequence more than once', () => {
+    test('should create an iterator that is consumed the first time it is realized', () => {
         const sequence = Sequence.from([1, 2, 3]);
 
         const keys = sequence.keys();
@@ -1909,7 +1909,7 @@ describe('Sequence.keys', () => {
         const array2 = Array.from(keys);
 
         expect(array).toEqual([0, 1, 2]);
-        expect(array2).toEqual([0, 1, 2]);
+        expect(array2).toEqual([]);
         expect(array).not.toBe(array2);
     });
 
@@ -1952,7 +1952,7 @@ describe('Sequence.values', () => {
         expect(values).not.toBe(sequence);
     });
 
-    test('should create full values sequence more than once', () => {
+    test('should create an iterator that is consumed the first time it is realized', () => {
         const sequence = Sequence.from([1, 2, 3]);
 
         const values = sequence.values();
@@ -1961,7 +1961,7 @@ describe('Sequence.values', () => {
         const array2 = Array.from(values);
 
         expect(array).toEqual([1, 2, 3]);
-        expect(array2).toEqual([1, 2, 3]);
+        expect(array2).toEqual([]);
         expect(array).not.toBe(array2);
     });
 

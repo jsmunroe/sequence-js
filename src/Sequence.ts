@@ -161,16 +161,16 @@ export default class Sequence<TItem = any> {
         return foundIndex;
     }
 
-    entries(): Sequence<[number, TItem]> {
-        return this.map<[number, TItem]>((item: TItem, index: number) => [index, item]);
+    entries(): Iterable<[number, TItem]> {
+        return entriesGenerator(this);
     }
 
-    keys(): Sequence<number> {
-        return this.map((_, index: number) => index);
+    keys(): Iterable<number> {
+        return keysGenerator(this);
     }
 
-    values(): Sequence<TItem> {
-        return new Sequence<TItem>(this.generator);
+    values(): Iterable<TItem> {
+        return valuesGenerator(this);
     }
 
     concat(...others: (Iterable<TItem> | TItem)[]): Sequence<TItem> {
@@ -256,7 +256,7 @@ export default class Sequence<TItem = any> {
             index += length;
 
             if (index < 0 || index >= length) {
-                throw new RangeError(`Index ${index - length} is out of range.`);
+                throw new RangeError(`Invalid index : ${index - length}`);
             }
         }
 
@@ -311,18 +311,6 @@ export default class Sequence<TItem = any> {
 
     toArray(): TItem[] {
         const array =  Array.from(this);
-
-        for (let i = 0; i < array.length; i++) {
-            const item = array[i];
-
-            if (typeof item === 'undefined') {
-                delete array[i];
-            }
-        }
-
-        if (array.every(item => typeof item === 'undefined')) {
-            return { length: array.length } as TItem[];
-        }
 
         return array;
     }
@@ -473,6 +461,24 @@ function* filterGenerator<TItem, TThis>(sequence: Sequence<TItem>, predicate: (i
     }
 }
 
+function* entriesGenerator<TItem>(sequence: Sequence<TItem>): Generator<[number, TItem]> {
+    let index = 0;
+    for (const item of sequence) {
+        yield [index++, item];
+    }
+}
+
+function* keysGenerator<TItem>(sequence: Sequence<TItem>) {
+    let index = 0;
+    for (const _ of sequence) {
+        yield index++;
+    }
+}
+
+function* valuesGenerator<TItem>(sequence: Sequence<TItem>) {
+    yield* sequence;
+}
+
 function* concatGenerator<TItem>(sequence: Sequence<TItem>, others: (Iterable<TItem> | TItem)[]) {
     yield* sequence;
     for (const other of others) {
@@ -540,7 +546,7 @@ function* withGenerator<TItem>(sequence: Sequence<TItem>, index: number, item: T
     }
 
     if (!isItemPlaced) {
-        throw new RangeError(`Index ${index} is out of range.`);
+        throw new RangeError(`Invalid index : ${index}`);
     }
 }
 
