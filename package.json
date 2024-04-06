@@ -1,7 +1,7 @@
 {
   "name": "sequential-js",
   "description": "Array-like implementation in JavaScript that employs delayed execution techniques using generators.",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "dist/Sequence.js",
   "module": "dist/Sequence.mjs",
   "types": "dist/Sequence.d.ts",
